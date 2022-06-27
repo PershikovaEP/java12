@@ -1,37 +1,35 @@
 package ru.netology.manager;
 
 import ru.netology.domain.Poster;
+import ru.netology.repository.Repository;
 
 public class Manager {
-    //все фильмы должны храниться внутри массива в поле самого менеджера.
-    //изначально нулевой массив
-    private Poster[] films = new Poster[0];
+
+    private Repository repo;  //поле репозитория
     private int maxLimit = 10;
 
-    public Manager() {
+    public Manager(Repository repo) {  //конструктор, через который получает менеджер значения c репозитрия
+        this.repo = repo;
     }
 
-    public Manager(int maxLimit) {
+    public Manager(Repository repo, int maxLimit) { //конструктор для получения значений с репозитория и указания лимита
+        this.repo = repo;
         this.maxLimit = maxLimit;
     }
 
     public void addNewFilm(Poster film) {
         //добавление нового фильма
-        Poster[] tmp = new Poster[films.length + 1]; //создаем временный массив tmp длиной на 1 больше
-        for (int i = 0; i < films.length; i++) { // перебираем все элементы массива films
-            tmp[i] = films[i];            // копируем их в новый массив tmp
-        }
-        tmp[tmp.length - 1] = film;  //заполняем последнюю ячейку массива
-        films = tmp; //записываем временный массив в films
+       repo.save(film);
     }
 
     public Poster[] findAll() {
         //вывод всех фильмов в порядке добавления
-        return films;
+        return repo.findAll();
     }
 
     public Poster[] findLast() {
         //Вывод максимум лимит* последних добавленных фильмов в обратном от добавления порядке
+        Poster[] films = repo.findAll();  //берем массив из репо
         int resultLength;  //переменная, определяющая длину массива
         if (films.length > maxLimit) {   //если длина массива с фильмами больше макс лимита, то длина равна макс
             resultLength = maxLimit;
