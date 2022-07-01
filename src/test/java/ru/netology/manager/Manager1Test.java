@@ -7,7 +7,7 @@ import ru.netology.repository.Repository;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.mockito.Mockito.*;
 
-public class ManagerTest1 {
+public class Manager1Test {
     Repository repo = Mockito.mock(Repository.class);
     Manager manager = new Manager(repo, 5);
     Poster film1 = new Poster(1, "Бладшот", "Боевик", "???");
